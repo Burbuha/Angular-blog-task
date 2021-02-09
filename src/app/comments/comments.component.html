@@ -1,6 +1,6 @@
-<div *ngIf="commentService.comments.length">
+<div *ngIf="comments">
   <h6>Comment</h6>
-  <div *ngFor="let comment of commentService.comments">{{ comment }}</div>
+  <div *ngFor="let comment of comments">{{ comment }}</div>
 </div>
 
 <div class="input-group mb-3 mt-3">

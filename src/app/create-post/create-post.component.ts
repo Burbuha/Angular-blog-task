@@ -14,6 +14,5 @@ export class CreatePostComponent implements OnInit {
 
   addNewItem(value: any) {
     this.newItemPost.emit(value);
-    console.log(value);
   }
 }

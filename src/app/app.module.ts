@@ -1,3 +1,4 @@
+import { PostService } from './post.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
@@ -29,7 +30,7 @@ import { CreatePostComponent } from './create-post/create-post.component';
     //   InMemoryDataService, { dataEncapsulation: false }
     // )
   ],
-  providers: [],
+  providers: [PostService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

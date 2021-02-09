@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 import { Post } from './post';
-import { CommentService } from './comment.service';
+import { Comment } from './comment';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class PostService {
   // private postsUrl = 'api/posts';
+  comments: string[] = [];
 
   private postsUrl = 'https://jsonplaceholder.typicode.com/posts';
 
@@ -18,13 +17,9 @@ export class PostService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  constructor(
-    private http: HttpClient,
-    private commentService: CommentService
-  ) {}
+  constructor(private http: HttpClient) {}
 
   getPosts(): Observable<Post[]> {
-    // this.commentService.add('PostService: fetched posts'); //получить сообщения с сервера??????
     return this.http.get<Post[]>(`${this.postsUrl}?_limit=10`).pipe(
       tap((_) => this.log('fetched heroes')),
       catchError(this.handleError<Post[]>('getPosts', []))
@@ -39,8 +34,20 @@ export class PostService {
     );
   }
 
+  getComment(id: number): Observable<Comment | undefined> {
+    const url = `${this.postsUrl}/${id}/comments`;
+    return this.http.get<Comment>(url).pipe(
+      tap((comments) => console.log(comments)),
+      catchError(this.handleError<Comment>(`getComment id=${id}`))
+    );
+  }
+
   private log(message: string) {
-    this.commentService.add(`CommentService: ${message}`);
+    this.addComment(`CommentService: ${message}`);
+  }
+
+  addComment(comment: string) {
+    this.comments.push(comment);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
@@ -51,9 +58,12 @@ export class PostService {
     };
   }
 
-  updatePosts(post: Post): Observable<any> {
-    return this.http.put(this.postsUrl, post, this.httpOptions).pipe(
-      tap((_) => this.log(`updated post id=${post.id}`)),
+  updatePosts(post: Post | number): Observable<any> {
+    const id = typeof post === 'number' ? post : post.id;
+    const url = `${this.postsUrl}/${id}`;
+
+    return this.http.put(url, post, this.httpOptions).pipe(
+      tap((_) => this.log(`updated post id=${id}`)),
       catchError(this.handleError<any>('updatePost'))
     );
   }

@@ -8,40 +8,40 @@ import { Post } from '../post';
 @Component({
   selector: 'app-post-detail',
   templateUrl: './post-detail.component.html',
-  styleUrls: ['./post-detail.component.css']
+  styleUrls: ['./post-detail.component.css'],
 })
 export class PostDetailComponent implements OnInit {
-
   post?: Post;
+  comment?: Comment;
 
   // @Output() onClick = new EventEmitter ();
 
   constructor(
-    private route: ActivatedRoute, //содержит информацию о маршруте
+    private route: ActivatedRoute,
     private postService: PostService,
-    private location: Location ) { }
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
-    this.getPost()
+    this.getPost();
   }
 
   getPost(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.postService.getPost(id).subscribe(post => this.post = post);
+    this.postService.getPost(id).subscribe((post) => (this.post = post));
+
+    this.postService.getComment(id).subscribe((comments) => comments);
   }
 
   save(): void {
-    this.postService.updatePosts(this.post!)
-      .subscribe(() => this.goBack());
+    this.postService.updatePosts(this.post!).subscribe(() => this.goBack());
   }
 
   delete(): void {
-    this.postService.deletePosts(this.post!)
-      .subscribe(() => this.goBack());
+    this.postService.deletePosts(this.post!).subscribe(() => this.goBack());
   }
 
   goBack(): void {
     this.location.back();
   }
-
 }

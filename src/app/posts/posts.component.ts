@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from '../post';
-import { CommentService } from './../comment.service';
 import { PostService } from './../post.service';
 
 @Component({
@@ -10,11 +9,9 @@ import { PostService } from './../post.service';
 })
 export class PostsComponent implements OnInit {
   posts?: Post[];
+  comments = this.postService.comments;
 
-  constructor(
-    private postService: PostService,
-    private commentService: CommentService
-  ) {}
+  constructor(private postService: PostService) {}
 
   ngOnInit(): void {
     this.getPosts();
@@ -25,7 +22,7 @@ export class PostsComponent implements OnInit {
   }
 
   addComment(value: string): void {
-    this.commentService.add(value);
+    this.postService.addComment(value);
   }
 
   addPost(value: any): void {

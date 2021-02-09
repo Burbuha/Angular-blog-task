@@ -12,5 +12,8 @@
       >...see more</a
     >
   </div>
-  <app-comments (newItemEvent)="addComment($event)"></app-comments>
+  <app-comments
+    [comments]="comments"
+    (newItemEvent)="addComment($event)"
+  ></app-comments>
 </div>
