@@ -1,0 +1,11 @@
+<app-create-post></app-create-post>
+<div class="card-body shadow p-3 mb-3 mt-3 bg-white rounded" *ngFor="let post of posts">
+  <h5 class="card-title">{{ post.title }}</h5>
+  <p class="card-text text-truncate">
+    {{ post.post }}
+  </p>
+  <div class="card-btn d-flex justify-content-end">
+    <a href="#" class="btn btn-link" routerLink="/detail/{{post.id}}">...see more</a>
+  </div>
+  <app-comments (newItemEvent)="addComment($event)"></app-comments>
+</div>

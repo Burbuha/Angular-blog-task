@@ -1,0 +1,24 @@
+<div class="post-details shadow p-3 mb-5 bg-white rounded" *ngIf="post">
+
+  <h5 class="card-title">{{ post.title }}</h5>
+  <p class="card-text">
+    {{ post.post }}
+  </p>
+
+  <h6>Edit post</h6>
+
+  <div class="form-floating mb-3 mt-3">
+    <input type="text" class="form-control" [(ngModel)]="post.title" id="titleInput" placeholder="title" />
+    <label for="titleInput">Title</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input type="text" class="form-control" [(ngModel)]="post.post" id="postInput" placeholder="Text" />
+    <label for="postInput">Text</label>
+  </div>
+
+  <div class="btn-group d-flex justify-content-end" role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-secondary btn-outline-warning" (click)="save()">Save changes</button>
+    <button class="btn btn-outline-warning btn-sm" (click)="delete(hero)">Delete post</button>
+  </div>
+</div>
