@@ -4,6 +4,11 @@
     {{ post.body }}
   </p>
 
+  <app-comments
+    [comments]="comments"
+    (newItemEvent)="addComment($event)"
+  ></app-comments>
+
   <h6>Edit post</h6>
 
   <div class="form-floating mb-3 mt-3">

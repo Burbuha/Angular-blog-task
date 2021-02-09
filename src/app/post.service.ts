@@ -47,7 +47,13 @@ export class PostService {
   }
 
   addComment(comment: string) {
-    this.comments.push(comment);
+    const result = [...this.comments, comment];
+    return result;
+  }
+
+  updateComment(comment: string): void {
+    this.comments = [...this.addComment(comment)];
+    console.log(this.comments);
   }
 
   private handleError<T>(operation = 'operation', result?: T) {

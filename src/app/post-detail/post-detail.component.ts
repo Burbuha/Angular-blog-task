@@ -12,7 +12,7 @@ import { Post } from '../post';
 })
 export class PostDetailComponent implements OnInit {
   post?: Post;
-  comment?: Comment;
+  comments?: any;
 
   // @Output() onClick = new EventEmitter ();
 
@@ -26,11 +26,17 @@ export class PostDetailComponent implements OnInit {
     this.getPost();
   }
 
+  addComment(value: string): void {
+    this.postService.updateComment(value);
+  }
+
   getPost(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.postService.getPost(id).subscribe((post) => (this.post = post));
 
-    this.postService.getComment(id).subscribe((comments) => comments);
+    this.postService
+      .getComment(id)
+      .subscribe((comments) => (this.comments = comments));
   }
 
   save(): void {

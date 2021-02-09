@@ -8,7 +8,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 export class CommentsComponent implements OnInit {
   @Output() newItemEvent = new EventEmitter<string>();
 
-  @Input() comments?: string;
+  @Input() comments?: any;
 
   constructor() {}
 

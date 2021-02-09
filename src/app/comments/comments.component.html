@@ -1,6 +1,8 @@
-<div *ngIf="comments">
-  <h6>Comment</h6>
-  <div *ngFor="let comment of comments">{{ comment }}</div>
+<div *ngIf="comments" class="card">
+  <h6 class="text-center mt-5">Comment</h6>
+  <div *ngFor="let comment of comments" class="card-body mb-3 mt-3">
+    <p>{{ comment.body }}</p>
+  </div>
 </div>
 
 <div class="input-group mb-3 mt-3">
