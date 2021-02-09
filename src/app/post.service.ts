@@ -8,32 +8,34 @@ import { Posts } from './posts';
 import { CommentService } from './comment.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class PostService {
-
   private postsUrl = 'api/posts';
 
+  // private postsUrl = 'https://jsonplaceholder.typicode.com/posts';
+
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  constructor(private http: HttpClient, private commentService: CommentService) { }
+  constructor(
+    private http: HttpClient,
+    private commentService: CommentService
+  ) {}
 
   getPosts(): Observable<Post[]> {
-    this.commentService.add('PostService: fetched posts');//получить сообщения с сервера??????
-    return this.http.get<Post[]>(this.postsUrl)
-      .pipe(
-        tap(_ => this.log('fetched heroes')),
-        catchError(this.handleError<Post[]>('getPosts', []))
-        );
+    this.commentService.add('PostService: fetched posts'); //получить сообщения с сервера??????
+    return this.http.get<Post[]>(this.postsUrl).pipe(
+      tap((_) => this.log('fetched heroes')),
+      catchError(this.handleError<Post[]>('getPosts', []))
+    );
   }
 
   getPost(id: number): Observable<Post | undefined> {
     const url = `${this.postsUrl}/${id}`;
     return this.http.get<Post>(url).pipe(
-      tap(_ => this.log(`fetched hero id=${id}`)),
+      tap((_) => this.log(`fetched hero id=${id}`)),
       catchError(this.handleError<Post>(`getPost id=${id}`))
     );
   }
@@ -44,7 +46,6 @@ export class PostService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
 
@@ -58,7 +59,7 @@ export class PostService {
 
   updatePosts(post: Post): Observable<any> {
     return this.http.put(this.postsUrl, post, this.httpOptions).pipe(
-      tap(_ => this.log(`updated post id=${post.id}`)),
+      tap((_) => this.log(`updated post id=${post.id}`)),
       catchError(this.handleError<any>('updatePost'))
     );
   }
@@ -68,13 +69,16 @@ export class PostService {
     const url = `${this.postsUrl}/${id}`;
 
     return this.http.delete<Post>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted post id=${id}`)),
+      tap((_) => this.log(`deleted post id=${id}`)),
       catchError(this.handleError<Post>('deletePost'))
     );
   }
 
-  // clearPost(postID: number) {
-  //   console.log (postID);
-  // }
+  addPost(post: Post): Observable<Post> {
+    return this.http.post<Post>(this.postsUrl, post, this.httpOptions).pipe(
+      tap((newPost: Post) => this.log(`added post w/ id=${newPost.id}`)),
+      catchError(this.handleError<Post>('addPost'))
+    );
+  }
 
 }

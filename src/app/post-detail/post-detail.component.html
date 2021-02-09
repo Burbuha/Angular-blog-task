@@ -1,7 +1,7 @@
 <div class="post-details shadow p-3 mb-5 bg-white rounded" *ngIf="post">
   <h5 class="card-title">{{ post.title }}</h5>
   <p class="card-text">
-    {{ post.post }}
+    {{ post.body }}
   </p>
 
   <h6>Edit post</h6>
@@ -21,7 +21,7 @@
     <input
       type="text"
       class="form-control"
-      [(ngModel)]="post.post"
+      [(ngModel)]="post.body"
       id="postInput"
       placeholder="Text"
     />

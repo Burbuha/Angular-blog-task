@@ -6,25 +6,39 @@ import { PostService } from './../post.service';
 @Component({
   selector: 'app-posts',
   templateUrl: './posts.component.html',
-  styleUrls: ['./posts.component.css']
+  styleUrls: ['./posts.component.css'],
 })
 export class PostsComponent implements OnInit {
-
   posts?: Post[];
 
-
-  constructor(private PostService: PostService, private commentService: CommentService) { }
+  constructor(
+    private postService: PostService,
+    private commentService: CommentService
+  ) {}
 
   ngOnInit(): void {
     this.getPosts();
   }
 
   getPosts(): void {
-    this.PostService.getPosts().subscribe(posts => this.posts = posts);
+    this.postService.getPosts().subscribe((posts) => (this.posts = posts));
   }
 
   addComment(value: string): void {
     this.commentService.add(value);
   }
 
+  addPost(value: any): void {
+    console.log(value);
+    const title = value[0].trim();
+    const body = value[1].trim();
+    if (!value) {
+      return;
+    }
+    this.postService.addPost({ title, body } as Post).subscribe((post) => {
+      console.log(post);
+      console.log(this.posts);
+      this.posts?.unshift(post);
+    });
+  }
 }
