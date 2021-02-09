@@ -1,23 +1,22 @@
 <div *ngIf="commentService.comments.length">
-
   <h6>Comment</h6>
-  <div *ngFor='let comment of commentService.comments'> {{comment}} </div>
-  <!-- <button class="btn btn-light btn-sm" (click)="commentService.clear()">clear</button> -->
-
+  <div *ngFor="let comment of commentService.comments">{{ comment }}</div>
 </div>
 
 <div class="input-group mb-3 mt-3">
-  <textarea class="form-control" placeholder="Leave a comment here..." #newItem></textarea>
+  <textarea
+    class="form-control"
+    placeholder="Leave a comment here..."
+    #newItem
+    (keydown.enter)="addNewItem(newItem.value); newItem.value = ''"
+  ></textarea>
   <div class="input-group-append d-flex">
-    <button type="submit" class="btn btn-primary" (click)="addNewItem(newItem.value)">Comment</button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      (click)="addNewItem(newItem.value); newItem.value = ''"
+    >
+      Comment
+    </button>
   </div>
 </div>
-
-<!-- <form class="row">
-  <div class="col-9">
-    <textarea class="form-control" placeholder="Leave a comment here..." #newItem></textarea>
-  </div>
-  <div class="col-3">
-    <button type="submit" class="btn btn-primary" (click)="addNewItem(newItem.value)">Comment</button>
-  </div>
-</form> -->

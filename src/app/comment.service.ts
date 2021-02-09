@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CommentService {
-
   comments: string[] = [];
 
   add(comment: string) {
@@ -15,5 +14,5 @@ export class CommentService {
     this.comments = [];
   }
 
-  constructor() { }
+  constructor() {}
 }

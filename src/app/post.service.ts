@@ -4,16 +4,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Post } from './post';
-import { Posts } from './posts';
 import { CommentService } from './comment.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PostService {
-  private postsUrl = 'api/posts';
+  // private postsUrl = 'api/posts';
 
-  // private postsUrl = 'https://jsonplaceholder.typicode.com/posts';
+  private postsUrl = 'https://jsonplaceholder.typicode.com/posts';
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -25,8 +24,8 @@ export class PostService {
   ) {}
 
   getPosts(): Observable<Post[]> {
-    this.commentService.add('PostService: fetched posts'); //получить сообщения с сервера??????
-    return this.http.get<Post[]>(this.postsUrl).pipe(
+    // this.commentService.add('PostService: fetched posts'); //получить сообщения с сервера??????
+    return this.http.get<Post[]>(`${this.postsUrl}?_limit=10`).pipe(
       tap((_) => this.log('fetched heroes')),
       catchError(this.handleError<Post[]>('getPosts', []))
     );
@@ -46,13 +45,8 @@ export class PostService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // TODO: better job of transforming error for user consumption
+      console.error(error);
       this.log(`${operation} failed: ${error.message}`);
-
-      // Let the app keep running by returning an empty result.
       return of(result as T);
     };
   }
@@ -80,5 +74,4 @@ export class PostService {
       catchError(this.handleError<Post>('addPost'))
     );
   }
-
 }
