@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 // import * as EventEmitter from 'events';
 import { PostService } from './../post.service';
 import { Post } from '../post';
+import { Comment } from '../comment';
 
 @Component({
   selector: 'app-post-detail',
@@ -12,7 +13,7 @@ import { Post } from '../post';
 })
 export class PostDetailComponent implements OnInit {
   post?: Post;
-  comments?: any;
+  comments: any;
 
   // @Output() onClick = new EventEmitter ();
 
@@ -24,19 +25,39 @@ export class PostDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPost();
-  }
-
-  addComment(value: string): void {
-    this.postService.updateComment(value);
+    this.getComment();
   }
 
   getPost(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.postService.getPost(id).subscribe((post) => (this.post = post));
+  }
+
+  getComment(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    this.postService.getComments(id).subscribe((comments) => {
+      console.log(comments);
+      this.comments = comments;
+    });
+  }
+
+  addComment(value: string): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+    console.log(id);
+    if (!value) {
+      return;
+    }
+
+    const name = value[0].trim();
+    const body = value[1].trim();
 
     this.postService
-      .getComment(id)
-      .subscribe((comments) => (this.comments = comments));
+      .addComment({ name, body } as Comment, id)
+      .subscribe((comment) => {
+        console.log(comment);
+        console.log(this.comments);
+        this.comments.push(comment);
+      });
   }
 
   save(): void {

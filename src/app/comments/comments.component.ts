@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Comment } from '../comment';
 
 @Component({
   selector: 'app-comments',
@@ -6,15 +7,15 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
   styleUrls: ['./comments.component.css'],
 })
 export class CommentsComponent implements OnInit {
-  @Output() newItemEvent = new EventEmitter<string>();
+  @Output() addComment = new EventEmitter<string>();
 
-  @Input() comments?: any;
+  @Input() comments?: Comment[];
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  addNewItem(value: string) {
-    this.newItemEvent.emit(value);
+  addNewComment(value: any) {
+    this.addComment.emit(value);
   }
 }

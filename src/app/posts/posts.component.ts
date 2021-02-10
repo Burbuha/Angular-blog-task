@@ -21,15 +21,14 @@ export class PostsComponent implements OnInit {
   }
 
   addPost(value: any): void {
-    console.log(value);
-    const title = value[0].trim();
-    const body = value[1].trim();
     if (!value) {
       return;
     }
+
+    const title = value[0].trim();
+    const body = value[1].trim();
+
     this.postService.addPost({ title, body } as Post).subscribe((post) => {
-      console.log(post);
-      console.log(this.posts);
       this.posts?.unshift(post);
     });
   }

@@ -6,17 +6,28 @@
 </div>
 
 <div class="input-group mb-3 mt-3">
+  <input
+    type="text"
+    class="form-control"
+    #name
+    name="name"
+    placeholder="Enter your name"
+  />
+
   <textarea
     class="form-control"
     placeholder="Leave a comment here..."
-    #newItem
-    (keydown.enter)="addNewItem(newItem.value); newItem.value = ''"
+    #body
   ></textarea>
   <div class="input-group-append d-flex">
     <button
       type="submit"
       class="btn btn-primary"
-      (click)="addNewItem(newItem.value); newItem.value = ''"
+      (click)="
+        addNewComment([name.value, body.value]);
+        body.value = '';
+        name.value = ''
+      "
     >
       Comment
     </button>
