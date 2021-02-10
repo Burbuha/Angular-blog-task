@@ -1,7 +1,7 @@
 import { Location } from '@angular/common';
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-// import * as EventEmitter from 'events';
+
 import { PostService } from './../post.service';
 import { Post } from '../post';
 import { Comment } from '../comment';
@@ -33,37 +33,30 @@ export class PostDetailComponent implements OnInit {
 
   getComment(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.postService.getComments(id).subscribe((comments) => {
-      console.log(comments);
-      this.comments = comments;
-    });
+    this.postService
+      .getComments(id)
+      .subscribe((comments) => (this.comments = comments));
   }
 
   addComment(value: string): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    console.log(id);
-    if (!value) {
-      return;
-    }
-
     const name = value[0].trim();
     const body = value[1].trim();
-
+    const postID = id;
+    if (!name && !body && !postID) {
+      return;
+    }
     this.postService
-      .addComment({ name, body } as Comment, id)
-      .subscribe((comment) => {
-        console.log(comment);
-        console.log(this.comments);
-        this.comments.push(comment);
-      });
+      .addComment({ postID, name, body } as Comment)
+      .subscribe((comment) => this.comments.push(comment));
   }
 
-  save(): void {
-    this.postService.updatePosts(this.post!).subscribe(() => this.goBack());
+  saveChanges(): void {
+    this.postService.updatePost(this.post!).subscribe(() => this.goBack());
   }
 
-  delete(): void {
-    this.postService.deletePosts(this.post!).subscribe(() => this.goBack());
+  deletePost(): void {
+    this.postService.deletePost(this.post!).subscribe(() => this.goBack());
   }
 
   goBack(): void {

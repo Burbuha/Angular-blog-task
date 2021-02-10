@@ -6,13 +6,13 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./create-post.component.css'],
 })
 export class CreatePostComponent implements OnInit {
-  @Output() newItemPost = new EventEmitter();
+  @Output() addPost = new EventEmitter();
 
   constructor() {}
 
   ngOnInit(): void {}
 
-  addNewItem(value: any) {
-    this.newItemPost.emit(value);
+  addNewPost(value: any) {
+    this.addPost.emit(value);
   }
 }

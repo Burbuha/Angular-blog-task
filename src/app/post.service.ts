@@ -12,6 +12,13 @@ export class PostService {
 
   private postsUrl = 'https://jsonplaceholder.typicode.com/posts';
 
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(error);
+      return of(result as T);
+    };
+  }
+
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
@@ -31,28 +38,7 @@ export class PostService {
       .pipe(catchError(this.handleError<Post>(`getPost id=${id}`)));
   }
 
-  getComments(id: number): Observable<Comment | undefined> {
-    const url = `${this.postsUrl}/${id}/comments`;
-    return this.http
-      .get<Comment>(url)
-      .pipe(catchError(this.handleError<Comment>(`getComment id=${id}`)));
-  }
-
-  addComment(comment: Comment, id: number) {
-    const url = `${this.postsUrl}/${id}/comments`;
-    return this.http
-      .post<Comment>(url, comment, this.httpOptions)
-      .pipe(catchError(this.handleError<Post>('addPost')));
-  }
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      return of(result as T);
-    };
-  }
-
-  updatePosts(post: Post | number): Observable<any> {
+  updatePost(post: Post | number): Observable<any> {
     const id = typeof post === 'number' ? post : post.id;
     const url = `${this.postsUrl}/${id}`;
 
@@ -61,7 +47,7 @@ export class PostService {
       .pipe(catchError(this.handleError<any>('updatePost')));
   }
 
-  deletePosts(post: Post | number): Observable<Post> {
+  deletePost(post: Post | number): Observable<Post> {
     const id = typeof post === 'number' ? post : post.id;
     const url = `${this.postsUrl}/${id}`;
 
@@ -73,6 +59,21 @@ export class PostService {
   addPost(post: Post): Observable<Post> {
     return this.http
       .post<Post>(this.postsUrl, post, this.httpOptions)
+      .pipe(catchError(this.handleError<Post>('addPost')));
+  }
+
+  getComments(id: number): Observable<Comment | undefined> {
+    const url = `${this.postsUrl}/${id}/comments`;
+    return this.http
+      .get<Comment>(url)
+      .pipe(catchError(this.handleError<Comment>(`getComment id=${id}`)));
+  }
+
+  addComment(comment: Comment) {
+    const id = comment.postID;
+    const url = `${this.postsUrl}/${id}/comments`;
+    return this.http
+      .post<Comment>(url, comment, this.httpOptions)
       .pipe(catchError(this.handleError<Post>('addPost')));
   }
 }
