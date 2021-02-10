@@ -8,8 +8,6 @@ import { Comment } from './comment';
 
 @Injectable()
 export class PostService {
-  // private postsUrl = 'api/posts';
-
   private postsUrl = 'https://jsonplaceholder.typicode.com/posts';
 
   private handleError<T>(operation = 'operation', result?: T) {
