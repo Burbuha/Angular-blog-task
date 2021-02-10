@@ -15,8 +15,6 @@ export class PostDetailComponent implements OnInit {
   post?: Post;
   comments: any;
 
-  // @Output() onClick = new EventEmitter ();
-
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
